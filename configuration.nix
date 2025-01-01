@@ -23,6 +23,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  networking.wireguard.enable = true; # Ensures kernel module
 
   # Set your time zone.
   time.timeZone = "America/Detroit";
@@ -70,8 +71,30 @@
     vesktop
     git
     spotify
+    vlc
     rclone
+    rofi
+    alacritty
+    sway
+    swayidle
+    swaylock
+    swaybg
+    thunderbird
+    tree
+    wmctrl
+    networkmanager
+    networkmanagerapplet
+    networkmanager-openvpn
+    deluge
+    kdePackages.dolphin
+    kdePackages.kio-extras
+    kdePackages.kdegraphics-thumbnailers
+    kdePackages.ffmpegthumbs
+    libnotify
   ];
+  
+  services.gvfs.enable = true;
+  services.udisks2.enable = true;
   
   programs.sway = {
     enable = true;
@@ -79,7 +102,13 @@
     extraPackages = with pkgs; [];
   };
 
-  
+
+  services.emacs = {
+    enable = true;
+    package = pkgs.emacs;
+  };
+
+  services.xserver.enable = true;  
   
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

@@ -79,6 +79,7 @@
     swayidle
     swaylock
     swaybg
+    xwayland
     thunderbird
     tree
     wmctrl
@@ -91,17 +92,42 @@
     kdePackages.kdegraphics-thumbnailers
     kdePackages.ffmpegthumbs
     libnotify
+    gdu
+    mpd
   ];
+
+  fonts.packages = with pkgs; [
+    font-awesome
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-color-emoji
+    liberation_ttf
+    fira-code
+    fira-code-symbols
+    mplus-outline-fonts.githubRelease
+    dina-font
+    proggyfonts
+    nerd-fonts.fira-code
+    nerd-fonts.hack
+];
   
   services.gvfs.enable = true;
   services.udisks2.enable = true;
+
+  services.displayManager.gdm.enable = false;
+  services.xserver.displayManager.lightdm.enable = false;  
   
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
+  services.displayManager.sddm.theme = "breeze";
+
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
     extraPackages = with pkgs; [];
   };
 
+  programs.waybar.enable = true;
 
   services.emacs = {
     enable = true;

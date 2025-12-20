@@ -8,7 +8,6 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./modules/nixos/pia.nix
     ];
 
   # Bootloader.
@@ -68,10 +67,14 @@
   environment.systemPackages = with pkgs; [
     emacs
     wget
+    jq
     firefox
     vesktop
     git
     spotify
+    pavucontrol
+    brightnessctl
+    playerctl
     vlc
     rclone
     rofi
@@ -87,14 +90,13 @@
     networkmanager
     networkmanagerapplet
     networkmanager-openvpn
+    wireguard-tools
     deluge
     kdePackages.dolphin
     kdePackages.kio-extras
     kdePackages.kdegraphics-thumbnailers
     kdePackages.ffmpegthumbs
     libnotify
-    gdu
-    mpd
   ];
 
   fonts.packages = with pkgs; [
@@ -127,8 +129,6 @@
     wrapperFeatures.gtk = true;
     extraPackages = with pkgs; [];
   };
-
-  programs.waybar.enable = true;
 
   services.emacs = {
     enable = true;

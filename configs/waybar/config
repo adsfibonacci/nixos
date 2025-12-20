@@ -1,9 +1,9 @@
 {
     "layer": "top", // Waybar at top layer
     "position": "top", // Waybar position (top|bottom|left|right)
-    // "height": 30, // Auto-height is used when commented
+    "height": 10, // Auto-height is used when commented
     // "width": 1280, // Full screen width when commented
-    "spacing": 16, // Gaps between modules (in px)
+    "spacing": 0, // Gaps between modules (in px)
     // See `man waybar` for more configuration options
 
 // Configuration - modules-left
@@ -12,13 +12,37 @@
     	"sway/scratchpad",
         "custom/launcher",
         "sway/workspaces",
-      	"sway/window"
+	"wlr/taskbar"
     ],
+    "modules-center": [
+    		      "custom/spotify"
+    ],
+    "modules-right": [
+        "network",	
+        "tray",
+        "cpu",
+        "memory",
+        "backlight",
+        "pulseaudio",
+	"clock",
+        "battery"
+    ],
+
+    "custom/spotify": {
+    "exec": "/usr/bin/python3 $HOME/.config/scripts/mediaplayer.py --player spotify",
+    "format": "{}  ",
+    "return-type": "json",
+    "on-click": "playerctl play-pause",
+    "on-scroll-up": "playerctl next",
+    "on-scroll-down": "playerctl previous"
+},
 
     "custom/launcher": {
         "format":"<span size='x-large'></span>",
+	"tooltip": true,
+	"tooltip-format": "Left: Apps | Right: Power",
         "on-click": "exec rofi -show drun",
-        "tooltip": false
+        "on-click-right": "exec $HOME/.config/scripts/power.sh"
     },
     "sway/scratchpad": {
     		       "format": "{icon}{count}",
@@ -27,7 +51,7 @@
 		       "tooltip": true,
 		       "tooltip-format": "{app}: {title}"
     },
-
+    
   "sway/workspaces": {
         "disable-scroll": true,
         "all-outputs": true,
@@ -35,8 +59,7 @@
         "persistent-workspaces": {
           "1": [],
           "2": [],
-          "3": [],
-          "4": []
+          "3": []
         },
         "format": "{icon}",
         "format-icons": {
@@ -52,112 +75,37 @@
             "10": "10"
         }
     },
+    "wlr/taskbar": {
+	"format": "{icon}",
+	"icon-size": 14,
+	"icon-theme": "Numix-Circle",
+	"tooltip-format": "{title}",
+	"on-click": "activate",
+	"on-click-middle": "close",
+	"app_ids-mapping": {
+		"firefoxdeveloperedition": "firefox-developer-edition"
+	},
+	"rewrite": {
+		"Firefox Web Browser": "Firefox"
+	}
+},
 
-    "sway/window": {
-    		   "icon": true
-    },
-
-// Configuration - modules-center
-    
-    "modules-center": [
-       "custom/media",
-        "mpd"
-    ],
-     "mpd": {
-//        "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
-        "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ ",
-        "format-disconnected": "Disconnected ",
-        "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
-        "unknown-tag": "N/A",
-        "interval": 5,
-        "consume-icons": {
-            "on": " "
-        },
-        "random-icons": {
-//            "off": "<span color=\"#f53c3c\"></span> ",
-            "on": " "
-        },
-        "repeat-icons": {
-            "on": " "
-        },
-        "single-icons": {
-            "on": "1 "
-        },
-        "state-icons": {
-            "paused": "",
-            "playing": ""
-        },
-        "artist-len": 7,
-        "album-len": 7,
-        "title-len": 15,
-        "tooltip-format": "MPD (connected)",
-        "tooltip-format-disconnected": "MPD (disconnected)",
-        "on-click": "foot ncmpcpp"
-    },
-       "custom/media": {
-        "format": "{icon} {}",
-        "return-type": "json",
-        "max-length": 40,
-        "format-icons": {
-            "spotify": "",
-            "default": "🎜"
-        },
-        "escape": true,
-        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
-        // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
-    }
 
 
 // Configuration - modules-right
 
-    "modules-right": [
-        "network",
-        "custom/keyboard-layout",
-        "idle_inhibitor",
-        "cpu",
-        "memory",
-        "backlight",
-        "pulseaudio",
-        "battery",
-        "clock",
-        "tray",
-        "custom/power"
-    ],
-
-    "custom/keyboard-layout": {
-      	"exec": "i=$(swaymsg -t get_inputs); echo \"\"; echo \"$i\" | grep -m1 'xkb_active_layout_name' | cut -d '\"' -f4",
-        "format": "",
-        // Interval set only as a fallback; use signal to update the module more immediately
-        "interval": 30,
-        // See example config for sending signal to Waybar in ~/.config/sway/config.d/input
-        "signal": 1,
-        "on-click": "~/.config/waybar/scripts/keyhint.sh"
-    },
-
-    "idle_inhibitor": {
-        "format": "{icon}",
-        "format-icons": {
-            "activated": "",
-            "deactivated": ""
-        },
-        "tooltip-format-activated": "Idle Inhibitor Activated",
-        "tooltip-format-deactivated": "Idle Inhibitor Deactivated"
-    },
-
     "cpu": {
         "interval": 5,
-        "format": "{usage:>3}%",
+        "format": "{usage:>3}% ",
         "states": {
             "warning": 70,
             "critical": 90,
         },
-        "on-click": "footclient -T waybar_htop -e htop"
     },
     
     "memory": {
         "interval": 5,
-        "format": "{:>3}%",
-        "on-click": "footclient -T waybar_htop -e htop", 
+        "format": "{used:.0f}/8 G  ",
         "states": {
             "warning": 70,
             "critical": 90
@@ -174,7 +122,7 @@
 
     "pulseaudio": {
         "scroll-step": 2,
-        "format": "{icon} {volume}%",
+        "format": "{volume}% {icon}",
         "format-muted":"󰝟 muted",
         "format-icons": {
             "headphones": "",
@@ -193,14 +141,14 @@
             "warning": 30,
             "critical": 15
         },
-        "format": "{icon} {capacity}%",
+        "format": "{capacity}% {icon}",
         "format-icons": ["", "", "", "", ""]
     },
 
     "clock": {
-        "format": "󰅐 {:%H:%M}",
-        "format-alt": "󰅐 {:%OI:%M %p}",
-        "tooltip-format": " {:%A %m/%d}\n\n<tt><small>{calendar}</small></tt>",
+//        "format": "{:%H:%M}",
+        "format": "{:%OI:%M %p}",
+        "tooltip-format": "{:%A %m/%d}\n\n<tt><small>{calendar}</small></tt> ",
         "calendar": {
             "on-scroll": 1,
             "format": {
@@ -218,24 +166,16 @@
     },
 
     "tray": {
-        "icon-size": 16,
-        "spacing":10
-     },
-
-    "custom/power": {
-        "format":"⏻",
-        "on-click": "exec ~/.config/sway/scripts/power_menu.sh",
-        "tooltip": false
-    },
-    
+        "icon-size": 14,
+        "spacing":5
+     },    
     "network": {
         "format-disabled": " Disabled",
-        "format-wifi": " {bandwidthDownBits:>} 󰶡 {bandwidthUpBits:>} 󰶣",
-        "tooltip-format-wifi": "{essid}",
-        "format-ethernet": "󰈀 {bandwidthDownBits:>} 󰶡 {bandwidthUpBits:>} 󰶣",
-        "tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}",
+        "tooltip-format-wifi": " {bandwidthDownBits:>} 󰶡 {bandwidthUpBits:>} 󰶣",
+        "format-wifi": "{essid}",
+        "tooltip-format-ethernet": "󰈀 {bandwidthDownBits:>} 󰶡 {bandwidthUpBits:>} 󰶣",
+        "format-ethernet": "{ifname}: {ipaddr}/{cidr}",
         "format-disconnected": " Disconnected",
-        "on-click": "footclient -T waybar_nmtui -e nmtui",
         "interval": 2
-    },
+    }
 }

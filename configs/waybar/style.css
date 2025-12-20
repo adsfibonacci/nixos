@@ -60,7 +60,6 @@
 /* Every modules */
 #mode,
 #network,
-#custom-keyboard-layout,
 #idle_inhibitor,
 #cpu,
 #memory,
@@ -69,7 +68,7 @@
 #battery,
 #clock,
 #tray {
-    padding:0.5rem 0.6rem;
+    padding:0.3rem 0.3rem;
     margin: 1px 0px;
 }
 
@@ -78,8 +77,8 @@
  * -------------------------------------------------------------------------- */
 
 #custom-launcher {
-    margin-left:15px;
-    margin-right:10px;
+    margin-left:0px;
+    margin-right:5px;
 }
 
 #workspaces {

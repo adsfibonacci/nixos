@@ -106,6 +106,7 @@
     openssl
     curl
     ncurses
+    nix-prefetch
   ];
 
   fonts.packages = with pkgs; [

@@ -1,3 +1,4 @@
+{config, pkgs, ...}:
 {
   programs.git = {
     enable = true;
@@ -8,6 +9,15 @@
   };
 
   programs.waybar.enable = true;
+
+  programs.pyenv = {
+    enable = true;
+  };
+
+  home.packages = with pkgs; [
+    pyenv
+    emacs
+  ];
 
   home.file = {
     ".config/waybar/config".source = ./configs/waybar/config;

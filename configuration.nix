@@ -65,12 +65,10 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    emacs
     wget
     jq
     firefox
     vesktop
-    git
     spotify
     pavucontrol
     brightnessctl
@@ -97,6 +95,17 @@
     kdePackages.kdegraphics-thumbnailers
     kdePackages.ffmpegthumbs
     libnotify
+    gcc
+    gnumake
+    bzip2
+    zlib
+    xz
+    readline
+    libffi
+    sqlite
+    openssl
+    curl
+    ncurses
   ];
 
   fonts.packages = with pkgs; [
@@ -113,7 +122,7 @@
     nerd-fonts.fira-code
     nerd-fonts.hack
 ];
-  
+
   services.gvfs.enable = true;
   services.udisks2.enable = true;
 
